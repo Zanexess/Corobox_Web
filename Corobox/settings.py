@@ -27,7 +27,7 @@ SECRET_KEY = '1q(p-w^c1zixrfb89!jg^mr=%l8^j(df5(spwau&18j0&ex9+*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["corobox.me"]
+ALLOWED_HOSTS = ["corobox.me", "127.0.0.1"]
 
 
 # Application definition
@@ -54,7 +54,8 @@ INSTALLED_APPS = [
 
     # Apps
     'Categories.apps.CategoriesConfig',
-    'Stuff.apps.StuffConfig'
+    'Stuff.apps.StuffConfig',
+    'HomePage.apps.HomepageConfig'
 ]
 
 MIDDLEWARE = [
