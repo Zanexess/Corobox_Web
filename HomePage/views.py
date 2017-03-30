@@ -13,6 +13,7 @@ class HomePage(View):
                 </head>
                 <body>
                     <p align="center">Corobox Project</p>
+                    
                 </body>
                 </html>
             ''')
