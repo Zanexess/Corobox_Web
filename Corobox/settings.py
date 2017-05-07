@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     # Apps
     'Categories.apps.CategoriesConfig',
     'Stuff.apps.StuffConfig',
-    'HomePage.apps.HomepageConfig'
+    'HomePage.apps.HomepageConfig',
+    'Address.apps.AddressConfig'
 ]
 
 MIDDLEWARE = [
@@ -96,6 +97,9 @@ TEMPLATES = [
         },
     },
 ]
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 WSGI_APPLICATION = 'Corobox.wsgi.application'
 
