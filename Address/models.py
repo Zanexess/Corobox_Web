@@ -7,6 +7,7 @@ from django.conf import settings
 
 
 class Address(models.Model):
+    city = models.CharField(max_length=255, default='Москва')
     street = models.CharField(max_length=255)
     house = models.CharField(max_length=120)
     access = models.CharField(max_length=120)
