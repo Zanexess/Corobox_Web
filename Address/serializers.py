@@ -4,7 +4,7 @@ from Address.models import Address
 
 
 class AddressSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.IntegerField(required=False)
     city = serializers.CharField(required=True, allow_blank=False)
     street = serializers.CharField(required=True, allow_blank=False)
     house = serializers.CharField(required=True, allow_blank=False)

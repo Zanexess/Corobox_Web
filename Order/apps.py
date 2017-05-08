@@ -3,5 +3,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class OrdertoConfig(AppConfig):
-    name = 'OrderTo'
+class OrderConfig(AppConfig):
+    name = 'Order'

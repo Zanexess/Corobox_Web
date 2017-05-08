@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'Categories.apps.CategoriesConfig',
     'Stuff.apps.StuffConfig',
     'HomePage.apps.HomepageConfig',
-    'Address.apps.AddressConfig'
+    'Address.apps.AddressConfig',
+    'Order.apps.OrderConfig'
 ]
 
 MIDDLEWARE = [
@@ -141,7 +142,7 @@ AUTH_USER_MODEL = 'auth.User'
 
 LANGUAGE_CODE = 'ru_ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -157,3 +158,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 SITE_ID = 1
+USE_TZ=False

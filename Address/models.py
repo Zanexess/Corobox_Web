@@ -14,7 +14,7 @@ class Address(models.Model):
     floor = models.CharField(max_length=120)
     flat = models.CharField(max_length=120)
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,default=0)
 
     class Meta:
         verbose_name = u'Адрес'
