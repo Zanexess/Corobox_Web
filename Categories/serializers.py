@@ -5,6 +5,7 @@ from Categories.models import Category
 
 class CategorySerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
+    category_id = serializers.CharField(required=True)
     image_url = serializers.CharField(read_only=True, allow_null=True)
     title = serializers.CharField(required=False, allow_blank=True, max_length=120, read_only=True)
     description = serializers.CharField(required=False, allow_blank=True, read_only=True)

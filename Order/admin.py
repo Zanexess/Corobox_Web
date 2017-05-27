@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Order.models import Order
+from Order.models import Order, CategoryOrder
 
 
 class OrderModelAdmin(admin.ModelAdmin):
@@ -9,4 +9,10 @@ class OrderModelAdmin(admin.ModelAdmin):
         model = Order
 
 
+class CategoryOrderAdmin(admin.ModelAdmin):
+    class Meta:
+        model = CategoryOrder
+
+
 admin.site.register(Order, OrderModelAdmin)
+admin.site.register(CategoryOrder, CategoryOrderAdmin)

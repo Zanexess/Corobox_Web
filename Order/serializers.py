@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from Corobox import settings
-from Order.models import Order
+from Order.models import Order, CategoryOrder
 from Address.models import Address
+from Categories.serializers import CategorySerializer
 from Address.serializers import AddressSerializer
 import datetime
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
 
 class TimestampField(serializers.Field):
     def to_representation(self, value):
@@ -14,13 +16,21 @@ class TimestampField(serializers.Field):
         return int((value - epoch).total_seconds())
 
 
+class CategoryOrderSerializer(serializers.ModelSerializer):
+    # category = CategorySerializer()
+    class Meta:
+        model = CategoryOrder
+        fields = ('category', 'number')
+
+
 class OrderSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     created = TimestampField(required=False)
+    order = CategoryOrderSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ('uuid', 'created', 'address', 'status')
+        fields = ('uuid', 'created', 'address', 'status', 'order')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
@@ -31,40 +41,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
         if not address:
             address = Address.objects.create(**address_data)
+
+        order_data = validated_data.pop("order")
+
         order = Order.objects.create(address=address, **validated_data)
+
+        for order_obj in order_data:
+            categoryOrderObj = CategoryOrder.objects.create(**order_obj)
+            categoryOrderObj.save()
+            order.order.add(categoryOrderObj)
+
         address.owner = order.owner
         address.save()
         return order
-
-    # def create(self, validated_data):
-    #     address = validated_data.pop('address', None)
-    #     if not address:
-    #         return None
-    #
-    #     order = Order.objects.create(**validated_data)
-    #     address, created = AddressSerializer(address) Address.objects.get_or_create(id=address['id'], defaults=address)
-    #     validated_data['address'] = address
-    #     order.address = address
-    #
-    #     if not order.address:
-    #         return None
-    #     else:
-    #         return order
-
-    # def update_or_create_address(self, validated_data):
-    #     data = validated_data.pop('address', None)
-    #     if not data:
-    #         return None
-    #
-    #     address, created = Address.objects.update_or_create(
-    #         id=data.pop('id'), defaults=data)
-    #
-    #     validated_data['address'] = address
-    #
-    # def create(self, validated_data):
-    #     self.update_or_create_address(validated_data)
-    #     return super(OrderSerializer, self).create(validated_data)
-    #
-    # def update(self, instance, validated_data):
-    #     self.update_or_create_address(validated_data)
-    #     return super(OrderSerializer, self).update(instance, validated_data)
