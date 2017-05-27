@@ -27,7 +27,9 @@ SECRET_KEY = '1q(p-w^c1zixrfb89!jg^mr=%l8^j(df5(spwau&18j0&ex9+*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["corobox.me", "127.0.0.1", "185.143.172.79"]
+
+# ALLOWED_HOSTS = ["corobox.me", "127.0.0.1", "185.143.172.79"]
+ALLOWED_HOSTS = ["185.143.172.79"]
 
 
 # Application definition
