@@ -17,7 +17,8 @@ class TimestampField(serializers.Field):
 
 
 class CategoryOrderSerializer(serializers.ModelSerializer):
-    # category = CategorySerializer()
+    category = CategorySerializer()
+
     class Meta:
         model = CategoryOrder
         fields = ('category', 'number')
