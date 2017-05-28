@@ -14,6 +14,10 @@ class CategoryOrder(models.Model):
     category = models.ForeignKey(Category)
     number = models.IntegerField()
 
+    class Meta:
+        verbose_name = u'Категория и количество'
+        verbose_name_plural = u'Категория и количество'
+
 class Order(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
