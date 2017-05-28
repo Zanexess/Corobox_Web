@@ -2,6 +2,7 @@ from rest_framework import serializers
 from Corobox import settings
 from Order.models import Order, CategoryOrder
 from Address.models import Address
+from Categories.models import Category
 from Categories.serializers import CategorySerializer
 from Address.serializers import AddressSerializer
 import datetime
@@ -48,7 +49,11 @@ class OrderSerializer(serializers.ModelSerializer):
         order = Order.objects.create(address=address, **validated_data)
 
         for order_obj in order_data:
-            categoryOrderObj = CategoryOrder.objects.create(**order_obj)
+            category_data = order_obj.pop('category')
+            category_id = category_data.pop('category_id')
+            category = Category.objects.get(category_id=category_id)
+
+            categoryOrderObj = CategoryOrder.objects.create(category=category, **order_obj)
             categoryOrderObj.save()
             order.order.add(categoryOrderObj)
 
