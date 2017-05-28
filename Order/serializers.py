@@ -16,6 +16,10 @@ class TimestampField(serializers.Field):
         epoch = datetime.datetime(1970,1,1)
         return int((value - epoch).total_seconds())
 
+    def to_internal_value(self, data):
+        import datetime
+        return datetime.datetime.fromtimestamp(int(data))
+
 
 class CategoryOrderSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
@@ -28,11 +32,12 @@ class CategoryOrderSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     created = TimestampField(required=False)
-    order = CategoryOrderSerializer(many=True)
+    till = TimestampField(required=True)
+    order = CategoryOrderSerializer(many=True, required=True)
 
     class Meta:
         model = Order
-        fields = ('uuid', 'created', 'address', 'status', 'order')
+        fields = ('uuid', 'created', 'till', 'address', 'status', 'order')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
