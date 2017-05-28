@@ -51,7 +51,11 @@ class OrderSerializer(serializers.ModelSerializer):
         for order_obj in order_data:
             category_data = order_obj.pop('category')
             category_id = category_data.pop('category_id')
-            category = Category.objects.get(category_id=category_id)
+            try:
+                category = Category.objects.get(category_id=category_id)
+            except Category.DoesNotExist:
+                order.delete()
+                raise serializers.ValidationError("Category not found")
 
             categoryOrderObj = CategoryOrder.objects.create(category=category, **order_obj)
             categoryOrderObj.save()
@@ -60,3 +64,6 @@ class OrderSerializer(serializers.ModelSerializer):
         address.owner = order.owner
         address.save()
         return order
+
+
+
