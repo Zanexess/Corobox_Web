@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Order.models import Order, CategoryOrder
+from Order.models import Order, CategoryOrder, OrderFrom
 
 
 class OrderModelAdmin(admin.ModelAdmin):
@@ -9,6 +9,13 @@ class OrderModelAdmin(admin.ModelAdmin):
         model = Order
 
 
+class OrderFromModelAdmin(admin.ModelAdmin):
+    list_display = ['uuid', 'owner']
+
+    class Meta:
+        model = OrderFrom
+
+
 class CategoryOrderAdmin(admin.ModelAdmin):
     class Meta:
         model = CategoryOrder
@@ -16,3 +23,4 @@ class CategoryOrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderModelAdmin)
 admin.site.register(CategoryOrder, CategoryOrderAdmin)
+admin.site.register(OrderFrom, OrderFromModelAdmin)

@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from Corobox import settings
-from Order.models import Order, CategoryOrder
+from Order.models import Order, CategoryOrder, OrderFrom
 from Address.models import Address
 from Categories.models import Category
 from Categories.serializers import CategorySerializer
+from Stuff.models import Stuff
+from Stuff.serializers import StuffSerializer
 from Address.serializers import AddressSerializer
 import datetime
 import sys
@@ -70,5 +72,41 @@ class OrderSerializer(serializers.ModelSerializer):
         address.save()
         return order
 
+
+class OrderFromSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+    created = TimestampField(required=False)
+    stuff = StuffSerializer(many=True, required=True)
+
+    class Meta:
+        model = Order
+        fields = ('uuid', 'created', 'till', 'address', 'status', 'stuff')
+
+    def create(self, validated_data):
+        address_data = validated_data.pop('address')
+        try:
+            address = Address.objects.get(**address_data)
+        except Address.DoesNotExist:
+            address = None
+
+        if not address:
+            address = Address.objects.create(**address_data)
+
+        stuff_data = validated_data.pop('stuff')
+
+        order_from = OrderFrom.objects.create(address=address, **validated_data)
+
+        for stuff_obj in stuff_data:
+            uuid = stuff_obj.pop('uuid')
+            try:
+                stuff = Stuff.objects.get(uuid=uuid)
+                order_from.stuff.add(stuff)
+            except Stuff.DoesNotExist:
+                order_from.delete()
+                raise serializers.ValidationError("Stuff not found")
+
+        address.owner = order_from.owner
+        address.save()
+        return order_from
 
 

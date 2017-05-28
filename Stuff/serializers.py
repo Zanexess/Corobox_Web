@@ -17,9 +17,10 @@ class TimestampField(serializers.Field):
 
 
 class StuffSerializer(serializers.ModelSerializer):
-    stored_timestamp = TimestampField(required=True)
-    till = TimestampField(required=True)
-    category = CategorySerializer()
+    uuid = serializers.UUIDField()
+    stored_timestamp = TimestampField(read_only=True)
+    till = TimestampField(read_only=True)
+    category = CategorySerializer(read_only=True)
     image_url = serializers.SerializerMethodField(allow_null=True)
 
     def get_image_url(self, obj):
