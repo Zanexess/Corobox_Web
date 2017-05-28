@@ -3,7 +3,7 @@ from Stuff.models import Stuff
 
 
 class StuffModelAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'category']
+    list_display = ['title', 'uuid', 'owner']
 
     class Meta:
         model = Stuff

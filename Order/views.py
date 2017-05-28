@@ -16,7 +16,7 @@ from rest_framework.response import Response
 @permission_classes((IsAuthenticated, ))
 def order_get(request):
     if request.method == 'GET':
-        orders = Order.objects.all().filter(owner=request.user).filter(status="PROCESS")
+        orders = Order.objects.all().filter(owner=request.user)
         serializer = OrderSerializer(orders, many=True)
         return JsonResponse(serializer.data, safe=False)
 
