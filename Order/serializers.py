@@ -72,6 +72,19 @@ class OrderSerializer(serializers.ModelSerializer):
         address.save()
         return order
 
+    def update(self, instance, validated_data):
+        address_data = validated_data.get('address', instance.address)
+        try:
+            address = Address.objects.get(**address_data)
+        except Address.DoesNotExist:
+            address = Address.objects.create(**address_data)
+
+        instance.address = address
+        instance.till = validated_data.get('till', instance.till)
+
+        instance.save()
+        return instance
+
 
 class OrderFromSerializer(serializers.ModelSerializer):
     address = AddressSerializer()

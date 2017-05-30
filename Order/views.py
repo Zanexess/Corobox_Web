@@ -51,6 +51,26 @@ def order_put(request):
         return JsonResponse(serializer.errors, status=400)
 
 
+@csrf_exempt
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated, ))
+def order_upd(request, uuid):
+    try:
+        order_obj = Order.objects.get(uuid=uuid)
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        if order_obj.status == 'PROCESS':
+            data = JSONParser().parse(request)
+            serializer = OrderSerializer(order_obj, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save(owner=request.user)
+                return JsonResponse(serializer.data, status=201)
+            return JsonResponse(serializer.errors, status=400)
+        else:
+            return Response(status=status.HTTP_409_CONFLICT)
+
 # FROM
 
 

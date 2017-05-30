@@ -17,6 +17,8 @@ class OrderFromModelAdmin(admin.ModelAdmin):
 
 
 class CategoryOrderAdmin(admin.ModelAdmin):
+    list_display = ['id']
+
     class Meta:
         model = CategoryOrder
 
