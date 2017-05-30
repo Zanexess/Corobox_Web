@@ -160,11 +160,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 STATICFILES_DIRS = [
     os.path.join('/home/django/corobox-backend/', "media"),
-    '/admin/',
-    '/facebook',
-    '/rest_framework',
     '/categories/',
-    '/stuff/',
 ]
 
 SITE_ID = 1
