@@ -24,7 +24,7 @@ class StuffSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField(allow_null=True)
 
     def get_image_url(self, obj):
-        return 'http://185.143.172.79:8000/static/' + obj.image_url.url
+        return 'http://185.143.172.79:8000/static/stuff/' + obj.category.category_id + '.jpg'
 
     class Meta:
         model = Stuff
