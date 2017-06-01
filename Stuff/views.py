@@ -31,7 +31,7 @@ def order_to_stuff(request, uuid):
         except Order.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        if order.status == 'PROCESS':
+        if order.status == 'pending':
             for category_order in order.order.all():
                 category = Category.objects.get(id=category_order.category_id)
 
@@ -44,7 +44,7 @@ def order_to_stuff(request, uuid):
                                          owner=order.owner)
                     stuff.save()
 
-            order.status = "DONE"
+            order.status = "done"
             order.save()
         else:
             return Response(status.HTTP_409_CONFLICT)

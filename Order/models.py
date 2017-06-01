@@ -7,6 +7,7 @@ from Address.models import Address
 from Stuff.models import Stuff
 from Categories.models import Category
 import uuid, datetime
+from random import randint
 from django.utils import timezone
 
 
@@ -20,11 +21,12 @@ class CategoryOrder(models.Model):
 
 class Order(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    order_id = models.IntegerField(default=randint(100000, 999999), blank=True, null=True, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
     created = models.DateTimeField(blank=True, default=datetime.datetime.now())
     till = models.DateTimeField(blank=True, default=datetime.datetime.now())
     address = models.ForeignKey(Address, default=0)
-    status = models.CharField(max_length=120, default="PROCESS")
+    status = models.CharField(max_length=120, default="pending")
     order = models.ManyToManyField(CategoryOrder)
 
     class Meta:
@@ -40,7 +42,7 @@ class OrderFrom(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
     created = models.DateTimeField(blank=True, default=datetime.datetime.now())
     address = models.ForeignKey(Address, default=0)
-    status = models.CharField(max_length=120, default="PROCESS")
+    status = models.CharField(max_length=120, default="pending")
     stuff = models.ManyToManyField(Stuff)
 
     class Meta:

@@ -39,7 +39,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('uuid', 'created', 'till', 'address', 'status', 'order')
+        fields = ('uuid', 'order_id', 'created', 'till', 'address', 'status', 'order')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
@@ -78,6 +78,12 @@ class OrderSerializer(serializers.ModelSerializer):
             address = Address.objects.get(**address_data)
         except Address.DoesNotExist:
             address = Address.objects.create(**address_data)
+
+        status = validated_data.get('status', instance.status)
+        if status == 'pending' or status == 'packaging' or status == 'delivering' or status == 'done' or status == 'cancelled':
+            instance.status = status
+        else:
+            raise serializers.ValidationError("Status incorrect")
 
         instance.address = address
         instance.till = validated_data.get('till', instance.till)

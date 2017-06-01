@@ -61,7 +61,7 @@ def order_upd(request, uuid):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        if order_obj.status == 'PROCESS':
+        if order_obj.status == 'pending':
             data = JSONParser().parse(request)
             serializer = OrderSerializer(order_obj, data=data, partial=True)
             if serializer.is_valid():

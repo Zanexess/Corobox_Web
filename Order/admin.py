@@ -3,7 +3,7 @@ from Order.models import Order, CategoryOrder, OrderFrom
 
 
 class OrderModelAdmin(admin.ModelAdmin):
-    list_display = ['uuid', 'owner']
+    list_display = ['uuid', 'order_id']
 
     class Meta:
         model = Order
