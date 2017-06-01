@@ -95,6 +95,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class OrderFromSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     created = TimestampField(required=False)
+    till = TimestampField(required=False)
     stuff = StuffSerializer(many=True, required=True)
 
     class Meta:
