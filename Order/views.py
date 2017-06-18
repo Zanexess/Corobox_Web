@@ -17,10 +17,15 @@ from rest_framework.response import Response
 @permission_classes((IsAuthenticated, ))
 def order_get(request):
     if request.method == 'GET':
-        orders = Order.objects.all().filter(owner=request.user)
-        serializer = OrderSerializer(orders, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
+        type = request.GET.get('type')
+        if not type:
+            orders = Order.objects.all().filter(owner=request.user)
+            serializer = OrderSerializer(orders, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        else:
+            orders = Order.objects.all().filter(owner=request.user).filter(status=type)
+            serializer = OrderSerializer(orders, many=True)
+            return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
 @api_view(['DELETE'])
@@ -79,9 +84,16 @@ def order_upd(request, uuid):
 @permission_classes((IsAuthenticated, ))
 def order_from_get(request):
     if request.method == 'GET':
-        orders = OrderFrom.objects.all().filter(owner=request.user)
-        serializer = OrderFromSerializer(orders, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        type = request.GET.get('type')
+        if not type:
+            orders = OrderFrom.objects.all().filter(owner=request.user)
+            serializer = OrderFromSerializer(orders, many=True)
+            return JsonResponse(serializer.data, safe=False)
+        else:
+            orders = OrderFrom.objects.all().filter(owner=request.user).filter(status=type)
+            serializer = OrderFromSerializer(orders, many=True)
+            return JsonResponse(serializer.data, safe=False)
+
 
 @csrf_exempt
 @api_view(['PUT'])
