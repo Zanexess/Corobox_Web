@@ -10,6 +10,7 @@ class AddressSerializer(serializers.Serializer):
     access = serializers.CharField(required=True, allow_blank=False)
     floor = serializers.CharField(required=True, allow_blank=False)
     flat = serializers.CharField(required=True, allow_blank=False)
+    useAsDefault = serializers.BooleanField(required=False)
 
     def create(self, validated_data):
         return Address.objects.create(**validated_data)
@@ -20,5 +21,6 @@ class AddressSerializer(serializers.Serializer):
         instance.access = validated_data.get('access', instance.access)
         instance.floor = validated_data.get('floor', instance.floor)
         instance.flat = validated_data.get('flat', instance.flat)
+        instance.address = validated_data.get("useAsDefault", instance.useAsDefault)
         instance.save()
         return instance

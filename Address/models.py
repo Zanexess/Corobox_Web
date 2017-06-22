@@ -12,6 +12,7 @@ class Address(models.Model):
     access = models.CharField(max_length=120)
     floor = models.CharField(max_length=120)
     flat = models.CharField(max_length=120)
+    useAsDefault = models.BooleanField(default=False)
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,default=0)
 
