@@ -131,6 +131,7 @@ class OrderFromSerializer(serializers.ModelSerializer):
 
         for stuff in order_from.stuff.all():
             stuff.status = 'reservation'
+            stuff.save()
 
         address.owner = order_from.owner
         address.save()
