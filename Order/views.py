@@ -27,18 +27,18 @@ def order_get(request):
             serializer = OrderSerializer(orders, many=True)
             return JsonResponse(serializer.data, safe=False)
 
+
 @csrf_exempt
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated, ))
-def order_del(request, uuid):
-    # try:
-    #     order_obj = Order.objects.get(uuid=uuid)
-    # except Exception:
-    #     return Response(status=status.HTTP_404_NOT_FOUND)
+def order_to_del(request, uuid):
+    try:
+        order_obj = Order.objects.get(uuid=uuid)
+    except Exception:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        for order_ob in Order.objects.all():
-            order_ob.delete()
+        order_obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -112,9 +112,12 @@ def order_from_put(request):
 @csrf_exempt
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated, ))
-def order_del(request):
+def order_from_del(request, uuid):
+    try:
+        order_obj = OrderFrom.objects.get(uuid=uuid)
+    except Exception:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        for order_ob in OrderFrom.objects.all():
-            order_ob.delete()
+        order_obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

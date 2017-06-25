@@ -19,6 +19,7 @@ class CategoryOrder(models.Model):
         verbose_name = u'Категория и количество'
         verbose_name_plural = u'Категория и количество'
 
+
 class Order(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_id = models.IntegerField(default=randint(100000, 999999), blank=True, null=True, unique=True)
@@ -39,6 +40,7 @@ class Order(models.Model):
 
 class OrderFrom(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    order_id = models.IntegerField(default=randint(100000, 999999), blank=True, null=True, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
     created = models.DateTimeField(blank=True, default=datetime.datetime.now())
     till = models.DateTimeField(blank=True, null=True, default=datetime.datetime.now())

@@ -10,7 +10,7 @@ class OrderModelAdmin(admin.ModelAdmin):
 
 
 class OrderFromModelAdmin(admin.ModelAdmin):
-    list_display = ['uuid', 'owner']
+    list_display = ['uuid', 'order_id']
 
     class Meta:
         model = OrderFrom

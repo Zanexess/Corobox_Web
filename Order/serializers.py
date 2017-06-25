@@ -68,6 +68,10 @@ class OrderSerializer(serializers.ModelSerializer):
             categoryOrderObj.save()
             order.order.add(categoryOrderObj)
 
+        if order.till <= order.created:
+            order.delete()
+            raise serializers.ValidationError("Till <= Created")
+
         address.owner = order.owner
         address.save()
         return order
@@ -100,7 +104,7 @@ class OrderFromSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('uuid', 'created', 'till', 'address', 'status', 'stuff')
+        fields = ('uuid', 'order_id', 'created', 'till', 'address', 'status', 'stuff')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
