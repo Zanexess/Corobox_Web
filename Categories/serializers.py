@@ -13,6 +13,8 @@ class CategorySerializer(serializers.Serializer):
     monthly_price = serializers.IntegerField(read_only=True, required=False)
 
     def get_image_url(self, obj):
-        # obj.image_url.url
-        return 'http://185.143.172.79:8000/static/categories/' + obj.category_id + '_q.png'
+        request = self.context.get('request')
+        photo_url = obj.image_url.url
+        return request.build_absolute_uri(photo_url)
+        # return obj.image_url.url
 

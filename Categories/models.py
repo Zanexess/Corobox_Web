@@ -7,7 +7,7 @@ from django.db import models
 
 class Category(models.Model):
     category_id = models.CharField(max_length=120)
-    image_url = models.ImageField(upload_to='categories')
+    image_url = models.ImageField(upload_to='categories/')
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True)
     max_weight = models.FloatField(blank=True)

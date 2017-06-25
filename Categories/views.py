@@ -16,7 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 def categories_list(request):
     if request.method == 'GET':
         snippets = Category.objects.all()
-        serializer = CategorySerializer(snippets, many=True)
+        serializer = CategorySerializer(snippets, context={"request": request}, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
