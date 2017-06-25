@@ -20,11 +20,11 @@ def order_get(request):
         type = request.GET.get('type')
         if not type:
             orders = Order.objects.all().filter(owner=request.user)
-            serializer = OrderSerializer(orders, many=True)
+            serializer = OrderSerializer(orders, context={"request": request}, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             orders = Order.objects.all().filter(owner=request.user).filter(status=type)
-            serializer = OrderSerializer(orders, many=True)
+            serializer = OrderSerializer(orders, context={"request": request}, many=True)
             return JsonResponse(serializer.data, safe=False)
 
 
@@ -48,7 +48,7 @@ def order_to_del(request, uuid):
 def order_put(request):
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = OrderSerializer(data=data)
+        serializer = OrderSerializer(data=data, context={"request": request})
 
         if serializer.is_valid():
             serializer.save(owner=request.user)
@@ -68,7 +68,7 @@ def order_upd(request, uuid):
     if request.method == 'PUT':
         if order_obj.status == 'pending':
             data = JSONParser().parse(request)
-            serializer = OrderSerializer(order_obj, data=data, partial=True)
+            serializer = OrderSerializer(order_obj, data=data, context={"request": request}, partial=True)
             if serializer.is_valid():
                 serializer.save(owner=request.user)
                 return JsonResponse(serializer.data, status=201)
@@ -102,11 +102,11 @@ def order_from_get(request):
         type = request.GET.get('type')
         if not type:
             orders = OrderFrom.objects.all().filter(owner=request.user)
-            serializer = OrderFromSerializer(orders, many=True)
+            serializer = OrderFromSerializer(orders, context={"request": request}, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             orders = OrderFrom.objects.all().filter(owner=request.user).filter(status=type)
-            serializer = OrderFromSerializer(orders, many=True)
+            serializer = OrderFromSerializer(orders, context={"request": request}, many=True)
             return JsonResponse(serializer.data, safe=False)
 
 
@@ -116,7 +116,7 @@ def order_from_get(request):
 def order_from_put(request):
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = OrderFromSerializer(data=data)
+        serializer = OrderFromSerializer(data=data, context={"request": request})
 
         if serializer.is_valid():
             serializer.save(owner=request.user)
