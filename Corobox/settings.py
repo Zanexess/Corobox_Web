@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.vk',
 
     # Apps
+    'Profile.apps.ProfileConfig',
     'Categories.apps.CategoriesConfig',
     'Stuff.apps.StuffConfig',
     'HomePage.apps.HomepageConfig',
@@ -135,8 +136,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'auth.User'
-
+# AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'Profile.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

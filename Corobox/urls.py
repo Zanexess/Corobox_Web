@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^', include('Stuff.urls')),
     url(r'^', include('Address.urls')),
     url(r'^', include('Order.urls')),
+    url(r'^', include('Profile.urls')),
+
     # url(r'^', include('HomePage.urls')),
     url(r'^admin/', admin.site.urls),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
