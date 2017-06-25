@@ -76,8 +76,23 @@ def order_upd(request, uuid):
         else:
             return Response(status=status.HTTP_409_CONFLICT)
 
-# FROM
 
+@csrf_exempt
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated,))
+def order_to_cancel(request, uuid):
+    try:
+        order_obj = Order.objects.get(uuid=uuid)
+    except Exception:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        if order_obj.status == 'pending':
+            order_obj.status = 'cancelled'
+            order_obj.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# FROM
 
 @csrf_exempt
 @api_view(['GET'])
@@ -120,4 +135,25 @@ def order_from_del(request, uuid):
 
     if request.method == 'DELETE':
         order_obj.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@csrf_exempt
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated, ))
+def order_from_cancel(request, uuid):
+    try:
+        order_obj = OrderFrom.objects.get(uuid=uuid)
+    except Exception:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        if order_obj.status == 'pending':
+
+            for stuff in order_obj.stuff.all():
+                stuff.status = 'stored'
+                stuff.save()
+            order_obj.status = 'cancelled'
+            order_obj.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)

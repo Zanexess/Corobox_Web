@@ -14,6 +14,7 @@ class Stuff(models.Model):
     stored_timestamp = models.DateTimeField(blank=True, default=datetime.datetime.now())
     till = models.DateTimeField(blank=True, default=datetime.datetime.now())
     image_url = models.ImageField(upload_to='stuff', blank=True)
+    status = models.CharField(default="stored", blank=False, max_length=50)
 
     # ForeignKeys
     category = models.ForeignKey(Category)

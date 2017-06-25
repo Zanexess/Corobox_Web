@@ -129,6 +129,9 @@ class OrderFromSerializer(serializers.ModelSerializer):
                 order_from.delete()
                 raise serializers.ValidationError("Stuff not found")
 
+        for stuff in order_from.stuff:
+            stuff.status = 'reservation'
+
         address.owner = order_from.owner
         address.save()
         return order_from

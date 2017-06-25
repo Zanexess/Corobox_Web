@@ -16,7 +16,7 @@ from rest_framework.response import Response
 @permission_classes((IsAuthenticated, ))
 def stuff_list(request):
     if request.method == 'GET':
-        stuffs = Stuff.objects.all().filter(owner=request.user)
+        stuffs = Stuff.objects.all().filter(owner=request.user).filter(status='stored')
         serializer = StuffSerializer(stuffs, many=True)
         return JsonResponse(serializer.data, safe=False)
 
