@@ -12,12 +12,12 @@ from rest_framework.response import Response
 
 
 @csrf_exempt
-@api_view(['POST', 'GET'])
+@api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def address_get(request):
     if request.method == 'GET':
         addresses = Address.objects.all().filter(owner=request.user)
-        serializer = AddressSerializer(addresses, many=True)
+        serializer = AddressSerializer(addresses, context={"request": request}, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
@@ -41,11 +41,29 @@ def address_del(request, pk):
 def address_put(request):
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = AddressSerializer(data=data)
+        serializer = AddressSerializer(data=data, context={"request": request})
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated, ))
+def address_set_default(request, pk):
+    try:
+        address_obj = Address.objects.get(pk=pk)
+    except Exception:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        for address in Address.objects.all().filter(owner=request.user).filter(useAsDefault=True):
+            address.useAsDefault = False
+            address.save()
+        address_obj.useAsDefault = True
+        address_obj.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 
 @csrf_exempt
@@ -59,7 +77,7 @@ def address_upd(request, pk):
 
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = AddressSerializer(address_obj, data=data, partial=True)
+        serializer = AddressSerializer(address_obj, data=data, context={"request": request}, partial=True)
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return JsonResponse(serializer.data, status=201)

@@ -13,6 +13,10 @@ class AddressSerializer(serializers.Serializer):
     useAsDefault = serializers.BooleanField(required=False)
 
     def create(self, validated_data):
+        request = self.context.get('request')
+        for address in Address.objects.all().filter(owner=request.user).filter(useAsDefault=True):
+            address.useAsDefault = False
+            address.save()
         return Address.objects.create(**validated_data)
 
     def update(self, instance, validated_data):

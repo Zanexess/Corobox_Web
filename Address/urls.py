@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^address_del/(?P<pk>[0-9]+)/$', views.address_del),
     url(r'^address_put/$', views.address_put),
     url(r'^address_upd/(?P<pk>[0-9]+)/$', views.address_upd),
+    url(r'^address_set_default/(?P<pk>[0-9]+)/$', views.address_set_default)
 ]
