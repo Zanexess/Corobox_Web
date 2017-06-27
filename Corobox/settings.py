@@ -102,16 +102,15 @@ TEMPLATES = [
 ]
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-# ACCOUNT_USERNAME_REQUIRED = False
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.mail.ru'
-# EMAIL_PORT = 2525
-# EMAIL_HOST_USER = "corobox.project@mail.ru"
-# EMAIL_HOST_PASSWORD = "7Z0VivoEfYpG"
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = 'corobox.project@mail.ru'
-# SERVER_EMAIL = 'corobox.project@mail.ru'
+    # EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.mail.ru'
+    EMAIL_PORT = 2525
+    EMAIL_HOST_USER = "corobox.project@mail.ru"
+    EMAIL_HOST_PASSWORD = "7Z0VivoEfYpG"
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = 'corobox.project@mail.ru'
+    SERVER_EMAIL = 'corobox.project@mail.ru'
 
 WSGI_APPLICATION = 'Corobox.wsgi.application'
 
