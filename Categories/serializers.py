@@ -11,6 +11,7 @@ class CategorySerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, read_only=True)
     max_weight = serializers.FloatField(read_only=True, required=False)
     monthly_price = serializers.IntegerField(read_only=True, required=False)
+    daily_price = serializers.IntegerField(read_only=True, required=False)
 
     def get_image_url(self, obj):
         request = self.context.get('request')

@@ -35,11 +35,12 @@ class OrderSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     created = TimestampField(required=False)
     till = TimestampField(required=True)
+    paid_till = TimestampField(required=False)
     order = CategoryOrderSerializer(many=True, required=True)
 
     class Meta:
         model = Order
-        fields = ('uuid', 'order_id', 'created', 'till', 'address', 'status', 'order')
+        fields = ('uuid', 'order_id', 'created', 'till', 'paid_till', 'address', 'status', 'order')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')

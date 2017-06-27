@@ -26,6 +26,7 @@ class Order(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
     created = models.DateTimeField(blank=True, default=datetime.datetime.now())
     till = models.DateTimeField(blank=True, default=datetime.datetime.now())
+    paid_till = models.DateTimeField(blank=True, default=datetime.datetime.now())
     address = models.ForeignKey(Address, default=0)
     status = models.CharField(max_length=120, default="pending")
     order = models.ManyToManyField(CategoryOrder)

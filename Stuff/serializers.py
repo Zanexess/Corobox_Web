@@ -20,6 +20,7 @@ class StuffSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     stored_timestamp = TimestampField(read_only=True)
     till = TimestampField(read_only=True)
+    paid_till = TimestampField(read_only=True)
     category = CategorySerializer(read_only=True)
     status = serializers.CharField(read_only=True)
     image_url = serializers.SerializerMethodField(allow_null=True)
@@ -31,4 +32,4 @@ class StuffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stuff
-        fields = ('uuid', 'title', 'description', 'stored_timestamp', 'till', 'image_url', 'category', 'status')
+        fields = ('uuid', 'title', 'description', 'stored_timestamp', 'till', 'paid_till', 'image_url', 'category', 'status')

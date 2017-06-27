@@ -12,6 +12,7 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     max_weight = models.FloatField(blank=True)
     monthly_price = models.IntegerField(default=0)
+    daily_price = models.FloatField(default=0)
 
     class Meta:
         verbose_name = u'Категория'
