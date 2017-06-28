@@ -17,7 +17,10 @@ class AddressSerializer(serializers.Serializer):
         for address in Address.objects.all().filter(owner=request.user).filter(useAsDefault=True):
             address.useAsDefault = False
             address.save()
-        return Address.objects.create(**validated_data)
+        add = Address.objects.create(**validated_data)
+        add.useAsDefault = True
+        add.save()
+        return add
 
     def update(self, instance, validated_data):
         instance.city = validated_data.get('city', instance.city)
