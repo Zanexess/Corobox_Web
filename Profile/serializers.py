@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from models import User
+from Profile.models import User
 import datetime
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 
 class TimestampField(serializers.Field):

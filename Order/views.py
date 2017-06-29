@@ -9,6 +9,50 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
+import json
+
+ORDER_STATUS_POSSIBLE_CHANGES = {
+    Order.CANCELED: (Order.PENDING,),
+    Order.PENDING: (Order.DELIVERING,),
+    Order.DELIVERING: (Order.DONE,),
+}
+
+
+@api_view(['POST'])
+def change_status(request, uuid):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+        except json.JSONDecodeError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if 'status' not in data:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            order = Order.objects.get(uuid=uuid)
+        except Order.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if data['status'] not in ORDER_STATUS_POSSIBLE_CHANGES[order.status]:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        old_status = order.status
+        order.status = data['status']
+        order.save()
+
+        return JsonResponse({
+            'code': 'OK',
+            'message': 'Order {uuid} status changed from {old_status} to {new_status}'.format(
+                uuid=order.uuid, old_status=old_status, new_status=order.status
+            )
+        })
+
+    return JsonResponse({
+        'code': 'Bad request',
+        'message': 'Only POST-method is allowed'
+    })
+
 
 # TO
 

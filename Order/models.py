@@ -21,6 +21,19 @@ class CategoryOrder(models.Model):
 
 
 class Order(models.Model):
+    CANCELED = 'canceled'
+    PENDING = 'pending'
+    PACKAGING = 'packaging'
+    DELIVERING = 'delivering'
+    DONE = 'done'
+    STATUS_CHOICES = (
+        (CANCELED, CANCELED),
+        (PENDING, PENDING),
+        (PACKAGING, PACKAGING),
+        (DELIVERING, DELIVERING),
+        (DONE, DONE),
+    )
+
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_id = models.IntegerField(default=randint(100000, 999999), blank=True, null=True, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0)
@@ -28,7 +41,7 @@ class Order(models.Model):
     till = models.DateTimeField(blank=True, default=datetime.datetime.now())
     paid_till = models.DateTimeField(blank=True, default=datetime.datetime.now())
     address = models.ForeignKey(Address, default=0)
-    status = models.CharField(max_length=120, default="pending")
+    status = models.CharField(max_length=120, default="pending", choices=STATUS_CHOICES)
     order = models.ManyToManyField(CategoryOrder)
 
     class Meta:

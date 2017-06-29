@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from Corobox import settings
 from Order.models import Order, CategoryOrder, OrderFrom
@@ -9,8 +10,8 @@ from Stuff.serializers import StuffSerializer
 from Address.serializers import AddressSerializer
 import datetime
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 
 class TimestampField(serializers.Field):

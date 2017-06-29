@@ -2,6 +2,8 @@ from django.conf.urls import url
 from Order import views
 
 urlpatterns = [
+    url(r'^change_status/(?P<uuid>[a-z0-9\-]+)$', views.change_status),
+
     url(r'^order_to/$', views.order_get),
     url(r'^order_to/(?P<type>[^/]+)$', views.order_get),
     url(r'^order_to_put/$', views.order_put),
